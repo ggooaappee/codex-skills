@@ -1,0 +1,7 @@
+interface:
+  display_name: "数据结构实验"
+  short_description: "按教材实现数据结构算法，编译运行并套用课程 Word 模板完成实验报告"
+  default_prompt: "使用 $data-structure-labs 完成这份数据结构实验报告，代码要编译运行通过并插入截图。"
+
+policy:
+  allow_implicit_invocation: true
