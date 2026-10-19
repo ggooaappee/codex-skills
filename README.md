@@ -7,6 +7,7 @@
 | 技能 | 说明 |
 |---|---|
 | [lab-report-builder](lab-report-builder/) | 实验报告生成：读取实验指导书与截图，套用既有报告模板，生成 Word 报告并转 PDF 校验排版 |
+| [iot-course-homework](iot-course-homework/) | 物联网课程作业：基于第1至21次课件代码库完成 Arduino 程序、接线说明和静态校验 |
 
 ## lab-report-builder
 
@@ -38,6 +39,27 @@ lab-report-builder/
 ```
 
 ## 给同学用
+
+### iot-course-homework
+
+根据课件中的 LED、按键、OLED、RGB、传感器、电机、RFID、红外和 ZigBee 代码，组合完成新的物联网课程作业。
+
+```powershell
+Copy-Item -Recurse .\codex-skills\iot-course-homework "$env:USERPROFILE\.codex\skills\"
+```
+
+用法示例：
+
+> 用 `$iot-course-homework` 根据课件代码完成“温度高于 30°C 时红灯、低于 26°C 时蓝灯、其余时间绿灯”的作业，并把程序、接线说明和检查结果放到一个文件夹。
+
+主要资源：
+
+- `assets/code-library/patterns/`：按模块整理的代码模式
+- `assets/code-library/patterns/pin-map.md`：课件引脚表与冲突
+- `scripts/find_pattern.py`：按关键词检索代码模式
+- `scripts/validate_sketch.py`：检查单 `setup/loop`、括号、弯引号和常见引脚冲突
+
+### lab-report-builder
 
 1. 克隆仓库并安装技能：
 

@@ -1,0 +1,35 @@
+{
+  "schema_version": 2,
+  "source_course_count": 21,
+  "unique_slide_count": 277,
+  "duplicate_lesson": {
+    "lesson": 9,
+    "reason": "Two provided files have identical SHA-256 hashes"
+  },
+  "courses": [
+    {"lesson": 1, "topic": "物联网概述、平台介绍", "pattern": null},
+    {"lesson": 2, "topic": "LED、KEY", "pattern": "patterns/digital-led-key.md"},
+    {"lesson": 3, "topic": "蜂鸣器", "pattern": "patterns/buzzer.md"},
+    {"lesson": 4, "topic": "OLED", "pattern": "patterns/oled.md"},
+    {"lesson": 5, "topic": "RGB彩灯", "pattern": "patterns/rgb-ws2812b.md"},
+    {"lesson": 6, "topic": "温度传感器", "pattern": "patterns/temperature-ds18b20.md"},
+    {"lesson": 7, "topic": "温湿度传感器", "pattern": "patterns/temperature-humidity-dht12.md"},
+    {"lesson": 8, "topic": "照度传感器", "pattern": "patterns/light-sensor.md"},
+    {"lesson": 9, "topic": "三轴加速度传感器", "pattern": "patterns/accelerometer-adxl345.md"},
+    {"lesson": 10, "topic": "舵机", "pattern": "patterns/servo.md"},
+    {"lesson": 11, "topic": "步进电机", "pattern": "patterns/stepper.md"},
+    {"lesson": 12, "topic": "直流电机", "pattern": "patterns/dc-motor.md"},
+    {"lesson": 13, "topic": "浮球液位开关", "pattern": "patterns/float-switch.md"},
+    {"lesson": 14, "topic": "麦克风", "pattern": "patterns/microphone.md"},
+    {"lesson": 15, "topic": "雨滴传感器", "pattern": "patterns/rain-sensor.md"},
+    {"lesson": 16, "topic": "人体传感器", "pattern": "patterns/pir.md"},
+    {"lesson": 17, "topic": "距离传感器", "pattern": "patterns/proximity-tmd27713.md"},
+    {"lesson": 18, "topic": "RFID", "pattern": "patterns/rfid.md"},
+    {"lesson": 19, "topic": "超声波测距", "pattern": "patterns/ultrasonic.md"},
+    {"lesson": 20, "topic": "红外接收模块", "pattern": "patterns/ir-receiver.md"},
+    {"lesson": 21, "topic": "ZigBee", "pattern": "patterns/zigbee.md"}
+  ],
+  "integration_patterns": "patterns/integration-recipes.md",
+  "pin_conflicts": "patterns/pin-map.md",
+  "known_issues": "patterns/troubleshooting.md"
+}
