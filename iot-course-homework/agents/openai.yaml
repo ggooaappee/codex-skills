@@ -1,7 +1,0 @@
-interface:
-  display_name: "物联网课程作业"
-  short_description: "依据课件代码库完成 Arduino 物联网作业并检查接线与程序"
-  default_prompt: "使用 $iot-course-homework 根据课件代码库完成这份物联网课程作业。"
-
-policy:
-  allow_implicit_invocation: true

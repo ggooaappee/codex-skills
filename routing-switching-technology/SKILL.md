@@ -1,9 +1,9 @@
 ---
-name: lab-report-builder
-description: 生成或补全课程实验报告 Word 文档：读取实验指导书与截图，套用已有实验报告模板，按实验步骤写入配置命令、截图、图注与结果分析，并转 PDF 渲染检查排版。用于 eNSP 网络实验报告（VLAN、STP、MSTP 等）及同类的课程报告。
+name: routing-switching-technology
+description: 生成或补全路由与交换技术课程的 eNSP 实验报告：读取实验指导书与截图，套用课程 Word 模板，按原步骤写入配置命令、截图、图注与结果分析，并转 PDF 校验排版。仅用于路由交换实验报告，不处理 Arduino 物联网作业。
 ---
 
-# 实验报告生成工作流
+# 路由与交换技术实验报告
 
 把「实验指导书 + 截图」变成一份格式统一、图文对应、可直接提交的 Word 实验报告。
 
@@ -43,7 +43,7 @@ python scripts/inspect_lab_doc.py --job inspect.json
 ### 3. 一致性核对
 
 - `display vlan` / `display mux-vlan` / `display stp brief` 等回显是否支持正文结论
-- 设备名、IP、接口号是否与截图完全一致（注意 `fjh_sw1` 与 `fjh-sw1` 这类差异）
+- 设备名、IP、接口号是否与截图完全一致（注意 `sw1` 与 `SW1` 这类大小写或连接符差异）
 - 学生配置与指导书要求冲突时（例如要求 Hybrid、实际是 Trunk）先指出，不要默默写成符合要求
 
 发现矛盾先告诉用户，再决定是改配置重截，还是如实说明。

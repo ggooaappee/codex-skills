@@ -1,9 +1,9 @@
 ---
-name: iot-course-homework
-description: Complete or troubleshoot Arduino-based 物联网课程作业 and IoT fundamentals coursework using the supplied course code library, including component selection, pin-conflict checks, sketch validation, and explicit GitHub publishing.
+name: iot-fundamentals
+description: Complete or troubleshoot Arduino-based 物联网基础作业 using the supplied course code library, including component selection, pin-conflict checks, sketch validation, wiring notes, and explicit GitHub publishing. Do not use for routing or switching lab reports.
 ---
 
-# IoT Course Homework
+# IoT Fundamentals
 
 Use the course-derived code patterns as the primary source. Turn an assignment prompt and any attached code or screenshots into a runnable Arduino sketch, a short wiring note, and a test summary.
 

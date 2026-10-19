@@ -1,0 +1,7 @@
+interface:
+  display_name: "路由与交换技术"
+  short_description: "根据 eNSP 实验指导书和截图生成路由交换课程 Word 实验报告"
+  default_prompt: "使用 $routing-switching-technology 完成这次路由与交换技术实验报告。"
+
+policy:
+  allow_implicit_invocation: true

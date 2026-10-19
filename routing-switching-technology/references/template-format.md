@@ -38,7 +38,7 @@
 
 `图 N␣␣说明`，图与编号之间两个空格；说明包含设备、命令和结论，例如：
 
-`图 3  fjh_sw2 的 display stp brief：GE0/0/1 为根端口，GE0/0/2 为指定端口`
+`图 3  sw2 的 display stp brief：GE0/0/1 为根端口，GE0/0/2 为指定端口`
 
 ## 常见排版问题
 
@@ -73,8 +73,8 @@
 
 ```json
 {
-  "template": "C:/Users/.../112320250050傅俊豪实验二.VLAN综合实验.docx",
-  "out": "C:/Users/.../112320250050傅俊豪实验三.STP与MSTP.docx",
+  "template": "C:/Users/.../实验二.VLAN综合实验.docx",
+  "out": "C:/Users/.../实验三.STP与MSTP.docx",
   "date": "2026.10.19",
   "title": "STP 与 MSTP 配置",
   "summary": "本次实验……",
@@ -82,7 +82,7 @@
   "blocks": [
     {"type": "h1", "text": "一、实验目的"},
     {"type": "body", "text": "1．理解 STP 的作用与工作原理……"},
-    {"type": "cmd", "lines": ["[fjh_sw1]stp mode stp", "[fjh_sw1]display stp brief"]},
+    {"type": "cmd", "lines": ["[sw1]stp mode stp", "[sw1]display stp brief"]},
     {"type": "img", "path": "C:/Users/.../实验三-STP拓扑.png", "width": 3.6},
     {"type": "cap", "text": "图 1  STP 部分的实验拓扑"}
   ]
