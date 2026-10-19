@@ -27,12 +27,36 @@
 lab-report-builder/
 ├── SKILL.md                        # 工作流与硬性要求
 ├── agents/openai.yaml              # UI 元数据
+├── assets/
+│   ├── 实验报告模板.docx            # 空白模板（已去掉个人信息）
+│   └── 实验指导书/                  # 实验 2、实验 3 指导书原件
 ├── references/template-format.md   # 模板结构、字号、图宽、常见排版问题
 └── scripts/
     ├── inspect_lab_doc.py          # 导出指导书段落与内嵌图片
     ├── build_report.py             # 克隆模板、重建正文（report.json）
     └── render_report.ps1           # docx → PDF → 逐页 PNG
 ```
+
+## 给同学用
+
+1. 克隆仓库并安装技能：
+
+```powershell
+git clone https://github.com/ggooaappee/codex-skills.git
+Copy-Item -Recurse .\codex-skills\lab-report-builder "$env:USERPROFILE\.codex\skills\"
+```
+
+2. 用 `lab-report-builder\assets\实验报告模板.docx` 作为空白模板，不需要先做一份旧报告。
+3. 在 `report.json` 里填自己的信息：
+
+```json
+"student": {"class": "网络工程1班", "id": "你的学号", "name": "你的姓名"},
+"date": "2026.10.26"
+```
+
+4. 把指导书和截图给 Codex，说：用 `$lab-report-builder` 完成实验X报告。
+
+> 仓库是私有的，克隆/下载需要仓库权限。
 
 ## 安装
 

@@ -12,9 +12,10 @@ description: 生成或补全课程实验报告 Word 文档：读取实验指导�
 1. 实验指导书（.docx，含拓扑、实验需求、步骤）
 2. 截图（文件夹、剪贴板图片或微信图片）
 3. 上一份实验报告 .docx 作为格式模板（同课程任意一份即可）
-4. 学生信息与报告日期
+4. 学生信息与报告日期（写进 `report.json` 的 `student` / `date`）
 
 没有模板时先向用户要；截图不全时只写能证实的部分，其余标注「待补充」，不要编造结果。
+同学直接使用仓库自带的 `assets/实验报告模板.docx`（空白模板）即可，不需要先做一份旧报告。
 
 ## 工作流
 
@@ -49,7 +50,7 @@ python scripts/inspect_lab_doc.py --job inspect.json
 
 ### 4. 生成报告
 
-1. 按 `references/template-format.md` 写 `report.json`：`template` 指向上一次报告，`out` 指向 `学号姓名实验X.题目.docx`，另含 `date`、`title`、`summary` 和 `blocks`（h1 / head / body / cmd / img / cap 六种块）
+1. 按 `references/template-format.md` 写 `report.json`：`template` 指向上一次报告或 `assets/实验报告模板.docx`，`out` 指向 `学号姓名实验X.题目.docx`，另含 `student`（班级/学号/姓名）、`date`、`title`、`summary` 和 `blocks`（h1 / head / body / cmd / img / cap 六种块）
 3. 运行：
 
 ```bash
@@ -93,6 +94,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/render_report.ps1 -J
 ## 资源
 
 - `references/template-format.md` — 模板结构、字号、图宽与常见排版问题
+- `assets/实验报告模板.docx` — 空白实验报告模板（同学可直接使用）
+- `assets/实验指导书/` — 实验 2、实验 3 的指导书原件（示例）
 - `scripts/inspect_lab_doc.py` — 导出指导书段落与内嵌图片
 - `scripts/build_report.py` — 克隆模板并重建正文
 - `scripts/render_report.ps1` — docx → PDF → 逐页 PNG

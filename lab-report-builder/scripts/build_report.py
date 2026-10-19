@@ -33,6 +33,7 @@ import json
 import os
 
 import docx
+from docx.oxml import OxmlElement
 from docx.shared import Inches
 from docx.text.paragraph import Paragraph
 from docx.oxml.ns import qn
@@ -48,6 +49,72 @@ W_TRPR = qn("w:trPr")
 W_TRHEIGHT = qn("w:trHeight")
 W_VAL = qn("w:val")
 XML_SPACE = "{http://www.w3.org/XML/1998/namespace}space"
+
+# Fallback styles, used when the template body is empty (blank template).
+STYLE = {
+    "h1":   dict(font="黑体", size=22, bold=True, before=120, after=60, line=269, indent=None, center=False),
+    "head": dict(font="黑体", size=21, bold=True, before=80, after=40, line=269, indent=None, center=False),
+    "body": dict(font="仿宋", size=21, bold=False, before=0, after=60, line=274, indent=None, center=False),
+    "cmd":  dict(font="Consolas", size=17, bold=False, before=40, after=100, line=245, indent=142, center=False),
+    "cap":  dict(font="仿宋", size=18, bold=False, before=0, after=140, line=274, indent=None, center=True),
+    "img":  dict(font=None, size=None, bold=None, before=80, after=40, line=274, indent=None, center=True),
+}
+
+
+def default_para(kind, text=None, lines=None):
+    """Build a paragraph from the documented style constants."""
+    spec = STYLE[kind]
+    para = OxmlElement("w:p")
+    ppr = OxmlElement("w:pPr")
+    spacing = OxmlElement("w:spacing")
+    spacing.set(qn("w:before"), str(spec["before"]))
+    spacing.set(qn("w:after"), str(spec["after"]))
+    spacing.set(qn("w:line"), str(spec["line"]))
+    spacing.set(qn("w:lineRule"), "auto")
+    ppr.append(spacing)
+    if spec["indent"]:
+        ind = OxmlElement("w:ind")
+        ind.set(qn("w:left"), str(spec["indent"]))
+        ppr.append(ind)
+    if spec["center"]:
+        jc = OxmlElement("w:jc")
+        jc.set(qn("w:val"), "center")
+        ppr.append(jc)
+    para.append(ppr)
+    if spec["font"] is None:
+        return para
+
+    run = OxmlElement("w:r")
+    rpr = OxmlElement("w:rPr")
+    fonts = OxmlElement("w:rFonts")
+    for attr in ("ascii", "hAnsi", "eastAsia"):
+        fonts.set(qn("w:" + attr), spec["font"])
+    fonts.set(qn("w:hint"), "eastAsia")
+    rpr.append(fonts)
+    bold = OxmlElement("w:b")
+    if not spec["bold"]:
+        bold.set(qn("w:val"), "0")
+    rpr.append(bold)
+    size = OxmlElement("w:sz")
+    size.set(qn("w:val"), str(spec["size"]))
+    rpr.append(size)
+    run.append(rpr)
+
+    if text is not None:
+        node = OxmlElement("w:t")
+        node.set(XML_SPACE, "preserve")
+        node.text = text
+        run.append(node)
+    else:
+        for index, line in enumerate(lines or []):
+            if index:
+                run.append(OxmlElement("w:br"))
+            node = OxmlElement("w:t")
+            node.set(XML_SPACE, "preserve")
+            node.text = line
+            run.append(node)
+    para.append(run)
+    return para
 
 
 def para_font(para):
@@ -103,13 +170,6 @@ def find_templates(cell):
 
     if templates["h1"] is None:
         templates["h1"] = templates["head"]
-    missing = [n for n, v in templates.items() if v is None]
-    if missing:
-        raise SystemExit(
-            "无法从模板正文中识别以下段落样式："
-            + ", ".join(missing)
-            + "\n请确认模板是同一套实验报告（含标题/正文/命令/图注）。"
-        )
     return templates
 
 
@@ -127,7 +187,9 @@ def clone_run_rpr(template_para):
     return run
 
 
-def mk_text(template_para, text):
+def mk_text(template_para, text, kind):
+    if template_para is None:
+        return default_para(kind, text=text)
     new_p = copy.deepcopy(template_para._p)
     strip_to_ppr(new_p)
     run = clone_run_rpr(template_para)
@@ -140,6 +202,8 @@ def mk_text(template_para, text):
 
 
 def mk_cmd(template_para, lines):
+    if template_para is None:
+        return default_para("cmd", lines=lines)
     new_p = copy.deepcopy(template_para._p)
     strip_to_ppr(new_p)
     run = clone_run_rpr(template_para)
@@ -210,8 +274,11 @@ def build(job):
             path = block["path"]
             if not os.path.isabs(path):
                 path = os.path.join(base_dir, path)
-            element = copy.deepcopy(templates["img"]._p)
-            strip_to_ppr(element)
+            if templates["img"] is None:
+                element = default_para("img")
+            else:
+                element = copy.deepcopy(templates["img"]._p)
+                strip_to_ppr(element)
             cell._tc.append(element)
             width = float(block.get("width", 4.13))
             Paragraph(element, cell).add_run().add_picture(path, width=Inches(width))
@@ -221,7 +288,7 @@ def build(job):
         if kind == "cmd":
             element = mk_cmd(templates["cmd"], block["lines"])
         elif kind in ("h1", "head", "body", "cap"):
-            element = mk_text(templates[kind], block["text"])
+            element = mk_text(templates[kind], block["text"], kind)
         else:
             raise SystemExit(f"未知的 block type: {kind!r}")
         cell._tc.append(element)
@@ -233,6 +300,13 @@ def build(job):
         set_cell_text(table.rows[3].cells[1], job["title"])
     if job.get("summary"):
         set_cell_text(table.rows[5].cells[1], job["summary"])
+    student = job.get("student") or {}
+    if student.get("class"):
+        set_cell_text(table.rows[2].cells[0], student["class"])
+    if student.get("id"):
+        set_cell_text(table.rows[2].cells[1], student["id"])
+    if student.get("name"):
+        set_cell_text(table.rows[2].cells[2], student["name"])
     if job.get("row4_min_twips"):
         set_row_min_height(table, 4, int(job["row4_min_twips"]))
 
